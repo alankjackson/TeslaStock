@@ -1,0 +1,41 @@
+---
+title: "Analyze Daily Stock Swings"
+author: "Alan Jackson"
+date: "July 26, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(tidyquant)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read in the data for Tesla for the past 8 years
+
+```{r read in data}
+
+df <- c("TSLA") %>%
+     tq_get(get  = "stock.prices",
+           from = "2010-01-01",
+           to   = "2018-7-26") %>% 
+     mutate(swing=c(NA, diff(close))) %>%
+     mutate(swingpct=swing/close*100)
+
+```
+
+##    Do some analysis and plotting
+
+```{r quick plots}
+
+df %>% na.omit() %>%
+  ggplot(aes(x=swing)) +
+  geom_histogram(bins=60)
+
+df %>% na.omit() %>%
+  ggplot(aes(x=swingpct)) +
+  geom_histogram(bins=60)
+
+```
+
