@@ -21,7 +21,8 @@ df <- c("TSLA") %>%
            from = "2010-01-01",
            to   = "2018-7-26") %>% 
      mutate(swing=c(NA, diff(close))) %>%
-     mutate(swingpct=swing/close*100)
+     mutate(swingpct=swing/close*100) %>%
+  na.omit()
 
 ```
 
@@ -37,5 +38,9 @@ df %>% na.omit() %>%
   ggplot(aes(x=swingpct)) +
   geom_histogram(bins=60)
 
+summary(df)
+
+sd(df$swing)
+sd(df$swingpct)
 ```
 
